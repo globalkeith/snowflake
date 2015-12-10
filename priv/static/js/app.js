@@ -1285,6 +1285,76 @@ for (var i = 0; i < len; ++i) {
 
 var _game = require('./game');
 
+window.nextLevelSnowflake = (function () {
+  'use strict';
+
+  function nextLevelSnowflake(array, fractal) {
+    var newArray = [];
+    var end = array.length - 1;
+
+    for (var i = 0; i < end; i++) {
+      var thisPoint = array[i];
+      var nextPoint = array[i + 1];
+
+      newArray.push(thisPoint);
+
+      var generatedPoints = fractal(thisPoint, nextPoint);
+
+      for (var j = 0; j < generatedPoints.length; j++) {
+        newArray.push(generatedPoints[i]);
+      }
+    }
+
+    newArray.push(array[array.length - 1]);
+
+    return newArray;
+  }
+
+  return nextLevelSnowflake;
+}).call(undefined);
+
+function redrawSnowflake(array) {
+  graphics.moveTo(array[0].x, array[0].y);
+  for (var i = 1; i < array.length; i++) {
+    var point = array[i];
+    graphics.lineTo(point.x, point.y);
+  }
+
+  graphics.endFill();
+}
+
+window.initializeFractalGenerator = function initializeFractalGenerator() {
+  var array = [{ x: 50, y: 50 }, { x: 250, y: 50 }, { x: 100, y: 100 }];
+
+  window.onclick = function () {
+    array = nextLevelSnowflake(array, function (start, end) {
+      return [];
+      // var startToEnd = {
+      //   x: end.x - start.x,
+      //   y: end.y - start.y,
+      // };
+      // var length = Math.sqrt(startToEnd.x*startToEnd.x + startToEnd.y*startToEnd.y);
+      //
+      // return [
+      //   {
+      //     x: start.x + startToEnd.x / 3,
+      //     y: start.y + startToEnd.y / 3,
+      //   },
+      //   {
+      //   },
+      //   {
+      //     x: start.x + 2*startToEnd.x/3,
+      //     y: start.y + 2*startToEnd.y/3,
+      //   }
+      // ];
+    });
+
+    redrawSnowflake(array);
+  };
+
+  redrawSnowflake(array);
+};
+
 // Lets go!
 new _game.Game(700, 450, 'phaser');
 });
@@ -1485,17 +1555,13 @@ var MenuState = (function (_Phaser$State) {
       // set a fill and line style
       graphics.beginFill(0xFF3300);
       graphics.lineStyle(10, 0xffd900, 1);
-
-      // draw a shape
-      graphics.moveTo(50, 50);
-      graphics.lineTo(250, 50);
-      graphics.lineTo(100, 100);
       // graphics.lineTo(250, 220)
       // graphics.lineTo(50, 220)
       // graphics.lineTo(50, 50)
-      graphics.endFill();
 
       window.graphics = graphics;
+
+      window.initializeFractalGenerator();
 
       var filter = this.game.add.filter("Fire", 800, 600);
       filter.alpha = 0.0;
