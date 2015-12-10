@@ -1291,6 +1291,7 @@ window.nextLevelSnowflake = (function () {
   function nextLevelSnowflake(array, fractal) {
     var newArray = [];
     var end = array.length - 1;
+    var generatedPoints = [];
 
     for (var i = 0; i < end; i++) {
       var thisPoint = array[i];
@@ -1298,14 +1299,22 @@ window.nextLevelSnowflake = (function () {
 
       newArray.push(thisPoint);
 
-      var generatedPoints = fractal(thisPoint, nextPoint);
+      generatedPoints = fractal(thisPoint, nextPoint);
 
       for (var j = 0; j < generatedPoints.length; j++) {
-        newArray.push(generatedPoints[i]);
+        newArray.push(generatedPoints[j]);
       }
     }
 
-    newArray.push(array[array.length - 1]);
+    var thisPoint = array[end];
+    var nextPoint = array[0];
+
+    newArray.push(thisPoint);
+    var generatedPoints = fractal(thisPoint, nextPoint);
+
+    for (var j = 0; j < generatedPoints.length; j++) {
+      newArray.push(generatedPoints[j]);
+    }
 
     return newArray;
   }
@@ -1324,29 +1333,41 @@ function redrawSnowflake(array) {
 }
 
 window.initializeFractalGenerator = function initializeFractalGenerator() {
-  var array = [{ x: 50, y: 50 }, { x: 250, y: 50 }, { x: 100, y: 100 }];
+  var datumX = 100;
+  var datumY = 200;
+  var side = 150;
+  var array = [{ x: datumX, y: datumY }, { x: datumX + 1 * side, y: datumY - side * Math.sqrt(3) }, { x: datumX + 2 * side, y: datumY }];
+
+  var equilateralTriangleHeightToSideRatio = Math.sqrt(3) / 2;
 
   window.onclick = function () {
     array = nextLevelSnowflake(array, function (start, end) {
-      return [];
-      // var startToEnd = {
-      //   x: end.x - start.x,
-      //   y: end.y - start.y,
-      // };
-      // var length = Math.sqrt(startToEnd.x*startToEnd.x + startToEnd.y*startToEnd.y);
-      //
-      // return [
-      //   {
-      //     x: start.x + startToEnd.x / 3,
-      //     y: start.y + startToEnd.y / 3,
-      //   },
-      //   {
-      //   },
-      //   {
-      //     x: start.x + 2*startToEnd.x/3,
-      //     y: start.y + 2*startToEnd.y/3,
-      //   }
-      // ];
+      var startToEnd = {
+        x: end.x - start.x,
+        y: end.y - start.y
+      };
+      var length = Math.sqrt(startToEnd.x * startToEnd.x + startToEnd.y * startToEnd.y);
+
+      var dir = {
+        x: startToEnd.x / length,
+        y: startToEnd.y / length
+      };
+
+      var perp = {
+        x: dir.y * length * equilateralTriangleHeightToSideRatio / 3,
+        y: -dir.x * length * equilateralTriangleHeightToSideRatio / 3
+      };
+
+      return [{
+        x: start.x + startToEnd.x / 3,
+        y: start.y + startToEnd.y / 3
+      }, {
+        x: start.x + perp.x + startToEnd.x / 2,
+        y: start.y + perp.y + startToEnd.y / 2
+      }, {
+        x: start.x + 2 * startToEnd.x / 3,
+        y: start.y + 2 * startToEnd.y / 3
+      }];
     });
 
     redrawSnowflake(array);
@@ -1542,19 +1563,19 @@ var MenuState = (function (_Phaser$State) {
   }, {
     key: "create",
     value: function create() {
-      var label = this.addText("Snow flakes");
-      label.anchor.setTo(0.5);
-      label.y = 150;
+      // const label = this.addText("Snow flakes")
+      // label.anchor.setTo(0.5)
+      // label.y = 150
 
-      var background = this.game.add.sprite(0, 0);
-      background.width = 800;
-      background.height = 600;
+      // let background = this.game.add.sprite(0, 0)
+      // background.width = 800
+      // background.height = 600
 
       var graphics = this.game.add.graphics(100, 100);
 
       // set a fill and line style
-      graphics.beginFill(0xFF3300);
-      graphics.lineStyle(10, 0xffd900, 1);
+      graphics.beginFill(null);
+      graphics.lineStyle(2, 0xffd900, 1);
       // graphics.lineTo(250, 220)
       // graphics.lineTo(50, 220)
       // graphics.lineTo(50, 50)
@@ -1563,14 +1584,14 @@ var MenuState = (function (_Phaser$State) {
 
       window.initializeFractalGenerator();
 
-      var filter = this.game.add.filter("Fire", 800, 600);
-      filter.alpha = 0.0;
+      // let filter = this.game.add.filter("Fire", 800, 600)
+      // filter.alpha = 0.0
+      //
+      // background.filters = [filter]
 
-      background.filters = [filter];
-
-      this.label = label;
-      this.background = background;
-      this.filter = filter;
+      // this.label = label
+      // this.background = background
+      // this.filter = filter
     }
   }, {
     key: "addText",
@@ -1584,7 +1605,7 @@ var MenuState = (function (_Phaser$State) {
   }, {
     key: "update",
     value: function update() {
-      this.filter.update();
+      // this.filter.update()
       // this.menu.rotation += 0.02
     }
   }, {

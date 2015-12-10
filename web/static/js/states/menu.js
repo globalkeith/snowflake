@@ -4,19 +4,19 @@ export class MenuState extends Phaser.State {
   }
 
   create() {
-    const label = this.addText("Snow flakes")
-    label.anchor.setTo(0.5)
-    label.y = 150
+    // const label = this.addText("Snow flakes")
+    // label.anchor.setTo(0.5)
+    // label.y = 150
 
-    let background = this.game.add.sprite(0, 0)
-  	background.width = 800
-  	background.height = 600
+    // let background = this.game.add.sprite(0, 0)
+  	// background.width = 800
+  	// background.height = 600
 
     var graphics = this.game.add.graphics(100, 100)
 
     // set a fill and line style
-    graphics.beginFill(0xFF3300)
-    graphics.lineStyle(10, 0xffd900, 1)
+    graphics.beginFill(null)
+    graphics.lineStyle(2, 0xffd900, 1)
     // graphics.lineTo(250, 220)
     // graphics.lineTo(50, 220)
     // graphics.lineTo(50, 50)
@@ -25,14 +25,14 @@ export class MenuState extends Phaser.State {
 
     window.initializeFractalGenerator();
 
-  	let filter = this.game.add.filter("Fire", 800, 600)
-  	filter.alpha = 0.0
+  	// let filter = this.game.add.filter("Fire", 800, 600)
+  	// filter.alpha = 0.0
+    //
+  	// background.filters = [filter]
 
-  	background.filters = [filter]
-
-    this.label = label
-    this.background = background
-    this.filter = filter
+    // this.label = label
+    // this.background = background
+    // this.filter = filter
   }
 
   addText(message, style = { font: "45px Arial Black", fill: "#ffffff" }) {
@@ -41,7 +41,7 @@ export class MenuState extends Phaser.State {
 
   // v2. ninja, cowboy, bear
 	update() {
-    this.filter.update()
+    // this.filter.update()
     // this.menu.rotation += 0.02
   }
 
