@@ -1486,24 +1486,24 @@ var MenuState = (function (_Phaser$State) {
       background.width = 800;
       background.height = 600;
 
-      var bmd = this.game.add.bitmapData(800, 600);
-      var color = 'white';
-
-      bmd.ctx.beginPath();
-      bmd.ctx.lineWidth = "4";
-      bmd.ctx.strokeStyle = color;
-      bmd.ctx.stroke();
-      var sprite = this.game.add.sprite(0, 0, bmd);
-
-      bmd.clear();
-      bmd.ctx.beginPath();
-      bmd.ctx.moveTo(10, 10);
-      bmd.ctx.lineTo(100, 100);
-      bmd.ctx.lineWidth = 4;
-      bmd.ctx.stroke();
-      bmd.ctx.closePath();
-      bmd.render();
-      bmd.refreshBuffer();
+      // let bmd = this.game.add.bitmapData(800, 600)
+      // let color = 'white';
+      //
+      // bmd.ctx.beginPath();
+      // bmd.ctx.lineWidth = "4";
+      // bmd.ctx.strokeStyle = color;
+      // bmd.ctx.stroke();
+      // let sprite = this.game.add.sprite(0, 0, bmd);
+      //
+      // bmd.clear();
+      // bmd.ctx.beginPath();
+      // bmd.ctx.moveTo(10, 10);
+      // bmd.ctx.lineTo(100, 100);
+      // bmd.ctx.lineWidth = 4;
+      // bmd.ctx.stroke();
+      // bmd.ctx.closePath();
+      // bmd.render();
+      // bmd.refreshBuffer();
 
       //this.bitmapData.lineStyle(2, 0xffd900, 1)
       //  Draw a circle to it
@@ -1522,42 +1522,37 @@ var MenuState = (function (_Phaser$State) {
       // ctx.lineTo(250, 100);
       // this.game.add.sprite(50, 50, bmd);
 
-      // var graphics = this.game.add.graphics(100, 100)
-      // this.game.input.onDown.add(this.labelClicked, this);
+      var graphics = this.game.add.graphics(100, 100);
+      this.game.input.onDown.add(this.labelClicked, this);
+
+      // // set a fill and line style
+      graphics.lineStyle(2, 0xffd900, 1);
+      // // graphics.lineTo(250, 220)
+      // // graphics.lineTo(50, 220)
+      // // graphics.lineTo(50, 50)
       //
-      // // graphics.events.onInputDown.add(this.labelClicked, this)
-      // // // set a fill and line style
-      // graphics.lineStyle(2, 0xffd900, 1)
-      // // // graphics.lineTo(250, 220)
-      // // // graphics.lineTo(50, 220)
-      // // // graphics.lineTo(50, 50)
-      // //
-      // // window.graphics = graphics;
-      // //
-      // // window.initializeFractalGenerator();
+      // window.graphics = graphics;
       //
-      // var datumX = 100;
-      // var datumY = 200;
-      // var side = 150;
-      // var pointsArray = [
-      //   { x: datumX, y: datumY },
-      //   { x: datumX + 1*side, y: datumY - side * Math.sqrt(3) },
-      //   { x: datumX + 2*side, y: datumY }
-      // ];
-      //
-      // this.array = pointsArray
-      // this.graphics = graphics
-      //
-      // this.drawSnowflake(pointsArray, graphics)
-      //
-      // let filter = this.game.add.filter("Fire", 800, 600)
-      // filter.alpha = 0.0
-      //
-      // background.filters = [filter]
-      //
-      // // this.label = label
-      // this.background = background
-      // this.filter = filter
+      // window.initializeFractalGenerator();
+
+      var datumX = 100;
+      var datumY = 200;
+      var side = 150;
+      var pointsArray = [{ x: datumX, y: datumY }, { x: datumX + 1 * side, y: datumY - side * Math.sqrt(3) }, { x: datumX + 2 * side, y: datumY }];
+
+      this.array = pointsArray;
+      this.graphics = graphics;
+
+      this.drawSnowflake(pointsArray, graphics);
+
+      var filter = this.game.add.filter("Fire", 800, 600);
+      filter.alpha = 0.0;
+
+      background.filters = [filter];
+
+      // this.label = label
+      this.background = background;
+      this.filter = filter;
     }
   }, {
     key: 'nextLevelSnowflake',
