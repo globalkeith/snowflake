@@ -170,7 +170,7 @@ export class MenuState extends Phaser.State {
   }
 
 	update() {
-    // this.filter.update()
+    this.filter.update()
     // this.menu.rotation += 0.02
   }
 }
