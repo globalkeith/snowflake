@@ -1607,6 +1607,7 @@ var MenuState = (function (_Phaser$State) {
     key: 'update',
     value: function update() {
       this.filter.update();
+      // this.menu.rotation += 0.02
 
       var sprite = this.sprite;
       var cursors = this.cursors;
